@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banery ON/OFF</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    #banner {
+      width: 200px;
+      height: 100px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: white;
+      font-weight: bold;
+      border-radius: 10px;
+    }
+    #on {
+      background-color: green;
+      display: none;
+    }
+    #off {
+      background-color: red;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+      cursor: pointer;
+    }
+    input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      display: block;
+      margin: 0 auto 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Banery ON / OFF</h1>
+  <div id="banner" class="off">
+    <div id="off">OFF</div>
+    <div id="on">ON</div>
+  </div>
+  <input type="password" id="password" placeholder="Wprowadź hasło" />
+  <button onclick="setBanner('on')">Włącz</button>
+  <button onclick="setBanner('off')">Wyłącz</button>
+
+  <script>
+    const correctPassword = "1234"; // Ustaw hasło
+    function setBanner(state) {
+      const passwordInput = document.getElementById("password").value;
+      if (passwordInput !== correctPassword) {
+        alert("Nieprawidłowe hasło!");
+        return;
+      }
+
+      const bannerOn = document.getElementById("on");
+      const bannerOff = document.getElementById("off");
+
+      if (state === "on") {
+        bannerOn.style.display = "block";
+        bannerOff.style.display = "none";
+      } else {
+        bannerOn.style.display = "none";
+        bannerOff.style.display = "block";
+      }
+    }
+  </script>
+</body>
+</html>
