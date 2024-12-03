@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pogoda dla Łodzi</title>
     <style>
+        /* Styl dla całej strony */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -16,7 +17,11 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
+            position: relative;
         }
+
+        /* Kontener z informacjami o pogodzie */
         .container {
             background-color: #fff;
             border-radius: 10px;
@@ -26,31 +31,59 @@
             max-width: 600px;
             width: 100%;
             border: 2px solid #2a7d8f; /* Dodanie ładnej ramki */
+            z-index: 10;
+            position: relative;
         }
+
         h1 {
             color: #2a7d8f;
             font-size: 28px;
         }
+
         .weather-info {
             font-size: 18px;
             margin-top: 20px;
         }
+
         .weather-info span {
             font-weight: bold;
         }
+
         .image-container img {
             width: 100%;
             max-width: 400px;
             margin-top: 20px;
             border-radius: 8px;
         }
+
+        /* Animacja padającego śniegu */
+        @keyframes snowfall {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1.5em;
+            user-select: none;
+            z-index: 1;
+            animation: snowfall linear infinite;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1></h1>
+        <h1>Pogoda dla Łodzi</h1>
         <div class="image-container">
-            <img id="city-image" src="https://cdn.galleries.smcloud.net/t/galleries/gf-dFci-tULT-qb1r_pogoda-lodz-i-belchatow-664x442.jpg" alt="Łódź">
+            <img id="city-image" src="https://www.poland.travel/media/2704183/lodz-kosciuszki.jpg" alt="Łódź">
         </div>
         <div class="weather-info">
             <p><span>Temperatura:</span> <span id="temperature">Ładowanie...</span></p>
@@ -59,6 +92,7 @@
         </div>
     </div>
 
+    <!-- JavaScript generujący padające śnieżynki -->
     <script>
         // Twój klucz API z OpenWeatherMap
         const apiKey = 'a0c68f8706d13353f5664c284616906a';  // Twój klucz API
@@ -94,8 +128,28 @@
             }
         }
 
-        // Wywołanie funkcji fetchWeather po załadowaniu strony
+        // Funkcja do generowania śnieżynek
+        function createSnowflakes() {
+            const numberOfSnowflakes = 50;  // Liczba śnieżynek
+            const snowContainer = document.body; // Cała strona jako kontener dla śnieżynek
+
+            for (let i = 0; i < numberOfSnowflakes; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.classList.add('snowflake');
+                snowflake.textContent = '❄'; // Symbol śnieżynki
+
+                // Losowanie pozycji i czasu trwania animacji
+                snowflake.style.left = `${Math.random() * 100}vw`;  // Losowa szerokość ekranu
+                snowflake.style.animationDuration = `${Math.random() * 3 + 3}s`;  // Losowy czas trwania
+                snowflake.style.animationDelay = `${Math.random() * 2}s`;  // Losowe opóźnienie
+
+                snowContainer.appendChild(snowflake);
+            }
+        }
+
+        // Wywołanie funkcji
         fetchWeather();
+        createSnowflakes();
 
         // Aktualizacja co 2 minuty (120000 ms = 2 minuty)
         setInterval(fetchWeather, 120000);
